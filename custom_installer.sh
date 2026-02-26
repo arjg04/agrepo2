@@ -134,6 +134,7 @@ sudo debootstrap --arch amd64 stable /mnt http://deb.debian.org/debian
 echo
 sudo bash -c "genfstab -U /mnt > /mnt/etc/fstab"
 for dir in dev sys proc run ; do sudo mount --make-rslave --rbind /$dir /mnt/$dir ; done
+sudo bash -c 'cat /etc/network/interfaces > /mnt/etc/network/interfaces'
 
 echo 'Select the type of install you want'
 echo 'a) complete'
