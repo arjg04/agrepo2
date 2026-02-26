@@ -81,7 +81,7 @@ fi
 
 sudo debootstrap --arch amd64 stable /mnt http://deb.debian.org/debian
 echo
-sudo genfstab -U /mnt > /mnt/etc/fstab
+sudo bash -c "genfstab -U /mnt > /mnt/etc/fstab"
 for dir in dev sys proc run ; do sudo mount --make-rslave --rbind /$dir /mnt/$dir ; done
 
 echo 'Select the type of install you want'
