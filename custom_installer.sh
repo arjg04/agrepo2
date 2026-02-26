@@ -49,6 +49,7 @@ for part in $(ls $disk*) ; do
             sudo mkfs.btrfs $part
         elif [ $fsoption == 'c' ] ; then
             sudo mkfs.vfat $part
+            efidisk=$part
         elif [ $fsoption == 'd' ] ; then
             sudo mkswap $part
             swapdisk=$part
@@ -60,7 +61,7 @@ for part in $(ls $disk*) ; do
 done
 
 for part in $(ls $disk*) ; do
-    if [ $part != $disk ] ; then
+    if [ $part != $disk && $part != $efidisk && $part != $swapdisk ] ; then
         echo "Enter the mountpoint for $part"
         read mountpoint
         sudo mount --mkdir $part /mnt$mountpoint
@@ -68,6 +69,8 @@ for part in $(ls $disk*) ; do
     if [ $part == $swapdisk ] ; then
         sudo swapon $part
     fi
+    if [ $part == $efidisk ] ; then
+        sudo mount --mkdir $part /mnt/boot/efi
 done
 
 echo 'Setup is now preparing to install the base system.'
