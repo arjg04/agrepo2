@@ -100,7 +100,7 @@ done
 echo 'Setup is now preparing to install the base system.'
 echo 'To begin the installation, enter Y, or else enter Q to quit setup without installing'
 read confirmation2
-if [ confirmation2 != 'y' ] ; then
+if [ confirmation2 == 'q' ] ; then
     echo 'Setup has not finished. You will need to rerun the setup utility to finish the installation process. The system will reboot in 5 seconds.'
     sleep 5
     sudo reboot
