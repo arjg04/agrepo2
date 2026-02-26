@@ -1,8 +1,10 @@
 #!/bin/bash
 
-echo 'Welcome to setup. The setup utility prepares this OS to run on your computer.'
+echo 'Welcome to setup. The setup utility prepares Debian GNU/Linux to run on your computer.'
+echo
 echo 'To begin setup, press ENTER'
 echo 'To exit setup, type Q and press ENTER'
+echo 'Hit CTRL+C at any time to quit setup and execute a shell'
 
 read startoption
 if [ $startoption == 'q' ] ; then 
