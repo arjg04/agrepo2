@@ -83,7 +83,7 @@ for part in $(ls $disk*) ; do
         fi
         echo 'WARNING: ALL DATA on non-removable partition $part WILL BE ERASED! Do you wish to continue (enter yes)'
         read confirmation1
-        if [ $confirmation1 != 'yes' ] ; then
+        if [ "$confirmation1" != "yes" ] ; then
             echo 'Setup has not been complete. You will need to rerun setup again to finish the installation process.'
             exit
         fi
@@ -134,11 +134,13 @@ fi
 
 sudo debootstrap --arch amd64 stable /mnt http://deb.debian.org/debian
 echo
+if [ "$wifiname" != '' ] ; then
+    sudo bash -c "echo 'auto $wifiinterface' >> /mnt/etc/network/interfaces ; echo 'iface $wifiinterface inet dhcp' >> /mnt/etc/network/interfaces ; echo 'wpa-essid $wifiname' >> /mnt/etc/network/interfaces ; echo 'wpa-psk $wifipassword' >> /mnt/etc/network/interfaces"
+fi
 sudo bash -c "genfstab -U /mnt > /mnt/etc/fstab"
-mount /dev/sda3 /mnt
-mount -t proc proc /mnt/proc
-mount -t sysfs sys /mnt/sys
-mount -o bind /dev /mnt/dev
+sudo mount -t proc proc /mnt/proc
+sudo mount -t sysfs sys /mnt/sys
+sudo mount -o bind /dev /mnt/dev
 
 echo 'Select the type of install you want'
 echo 'a) complete'
