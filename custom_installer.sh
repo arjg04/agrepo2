@@ -30,7 +30,7 @@ read wifiname
 echo 'Enter your WiFi password (Leave this blank if you are connected by ethernet)'
 read wifipassword
 
-let wifiinterface=$(ip link | grep -m 1 wl | sed 's/[0-9]: //' | sed 's/:.*//')
+wifiinterface=$(ip link | grep -m 1 wl | sed 's/[0-9]: //' | sed 's/:.*//')
 echo 'Configuring network interfaces...'
 sudo bash -c "echo 'auto $wifiinterface' >> /etc/network/interfaces ; echo 'iface $wifiinterface inet dhcp' >> /etc/network/interfaces ; echo 'wpa-essid $wifiname' >> /etc/network/interfaces ; echo 'wpa-psk $wifipassword' >> /etc/network/interfaces"
 echo 'Restarting network service...'
