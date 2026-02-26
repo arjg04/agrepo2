@@ -97,8 +97,8 @@ if [ $installoption == 'a' ] ; then
 
     if [ $deoption == 'a' ] ; then
         curl https://raw.githubusercontent.com/arjg04/agrepo2/main/sources.list > sources.list
-        rm -f /mnt/etc/apt/sources.list
-        cp ./sources.list /mnt/etc/apt
+        sudo rm -f /mnt/etc/apt/sources.list
+        sudo cp ./sources.list /mnt/etc/apt
         echo 'Enter the name of this computer'
         read computername
         echo 'Enter the new name of the user:'
@@ -106,8 +106,8 @@ if [ $installoption == 'a' ] ; then
         sudo chroot /mnt /bin/bash -c "apt update ; echo Enter the password for $username ; passwd $username ; usermod -aG $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager gnome firefox-esr grub-efi-amd64 plymouth-themes wget curl command-not-found net-tools vlc ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; sed 's/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"/g' > /etc/default/grub ; plymouth-set-default-theme -R bgrt ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
     elif [ $deoption == 'b' ] ; then
         curl https://raw.githubusercontent.com/arjg04/agrepo2/main/sources.list > sources.list
-        rm -f /mnt/etc/apt/sources.list
-        cp ./sources.list /mnt/etc/apt
+        sudo rm -f /mnt/etc/apt/sources.list
+        sudo cp ./sources.list /mnt/etc/apt
         echo 'Enter the name of this computer'
         read hostname
         echo 'Enter the new name of the user:'
@@ -119,8 +119,8 @@ if [ $installoption == 'a' ] ; then
     fi
 elif [ $installoption == 'b' ] ; then
     curl https://raw.githubusercontent.com/arjg04/agrepo2/main/sources.list > sources.list
-    rm -f /mnt/etc/apt/sources.list
-    cp ./sources.list /mnt/etc/apt
+    sudo rm -f /mnt/etc/apt/sources.list
+    sudo cp ./sources.list /mnt/etc/apt
     echo 'Select the desktop environment you want to install'
     echo 'a) GNOME'
     echo 'b) KDE Plasma'
