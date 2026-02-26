@@ -138,9 +138,10 @@ if [ "$wifiname" != '' ] ; then
     sudo bash -c "echo 'auto $wifiinterface' >> /mnt/etc/network/interfaces ; echo 'iface $wifiinterface inet dhcp' >> /mnt/etc/network/interfaces ; echo 'wpa-essid $wifiname' >> /mnt/etc/network/interfaces ; echo 'wpa-psk $wifipassword' >> /mnt/etc/network/interfaces"
 fi
 sudo bash -c "genfstab -U /mnt > /mnt/etc/fstab"
-sudo mount -t proc --make-rslave --rbind /proc /mnt/proc
-sudo mount -t sysfs --make-rslave --rbind /sys /mnt/sys
-sudo mount -o bind --make-rslave --rbind /dev /mnt/dev
+sudo mount --make-rslave --rbind /proc /mnt/proc
+sudo mount --make-rslave --rbind /sys /mnt/sys
+sudo mount --make-rslave --rbind /dev /mnt/dev
+sudo mount --make-rslave --rbind /run /mnt/run
 
 echo 'Select the type of install you want'
 echo 'a) complete'
