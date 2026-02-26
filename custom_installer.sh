@@ -133,7 +133,7 @@ if [ $installoption == 'a' ] ; then
         read computername
         echo 'Enter the new name of the user:'
         read username
-        sudo chroot /mnt /bin/bash -c "apt update ; useradd -m -s /bin/bash $username ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager gnome firefox-esr grub-efi-amd64 plymouth-themes wget curl command-not-found net-tools vlc man-db ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\\\"\\\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; plymouth-set-default-theme -R bgrt ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
+        sudo chroot /mnt /bin/bash -c "apt update ; useradd -m -s /bin/bash $username ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager gnome gnome-system-tools firefox-esr grub-efi-amd64 plymouth-themes wget curl command-not-found net-tools vlc man-db ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\\\"\\\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; plymouth-set-default-theme -R bgrt ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
     elif [ $deoption == 'b' ] ; then
         curl https://raw.githubusercontent.com/arjg04/agrepo2/main/sources.list > sources.list
         sudo rm -f /mnt/etc/apt/sources.list
@@ -161,34 +161,45 @@ elif [ $installoption == 'b' ] ; then
         echo 'Enter the new name of the user:'
         read username
         echo 'Install libreoffice suite? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornlibreoffice
+        if [ $yornlibreoffice == 'y' ] ; then
             libreoffice='libreoffice'
+        else
+            libreoffice=''
         fi
         echo 'Install Firefox web browser? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornfirefoxesr
+        if [ $yornfirefoxesr == 'y' ] ; then
             firefoxesr='firefox-esr'
+        else
+            firefoxesr=''
         fi
         echo 'Install gnome-games? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yorngnomegames
+        if [ $yorngnomegames == 'y' ] ; then
             gnomegames='gnome-games'
+        else
+            gnomegames=''
         fi
         echo 'Install VLC Media Player? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornvlc
+        if [ $yornvlc == 'y' ] ; then
             vlc='vlc'
+        else 
+            vlc=''
         fi
 
         echo 'Enable access to additional software (flathub)?'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornflathub
+        if [ $yornflathub == 'y' ] ; then
             flathub='flatpak'
             gnomesoftwareflathub='gnome-software-plugin-flatpak'
+        else
+            flathub=''
+            gnomesoftwareflathub=''
         fi
         
-        sudo chroot /mnt /bin/bash -c "apt update ; useradd -m -s /bin/bash $username ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager gnome-shell gdm3 gnome-software $flathub $gnomesoftwareflathub $libreoffice $firefoxesr $gnomegames $vlc nautilus gnome-calculator gnome-terminal grub-efi-amd64 plymouth-themes wget curl man-db command-not-found net-tools vlc ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\"\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; plymouth-set-default-theme -R bgrt ; flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
+        sudo chroot /mnt /bin/bash -c "apt update ; useradd -m -s /bin/bash $username ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager gnome-shell gdm3 gnome-software $flathub $gnomesoftwareflathub $libreoffice $firefoxesr $gnomegames $vlc nautilus gnome-calculator gnome-system-tools gnome-terminal grub-efi-amd64 plymouth-themes wget curl man-db command-not-found net-tools vlc ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\"\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; plymouth-set-default-theme -R bgrt ; flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
 
     elif [ $deoption == 'b' ] ; then
         echo 'Enter the name of this computer'
@@ -196,33 +207,44 @@ elif [ $installoption == 'b' ] ; then
         echo 'Enter the new name of the user:'
         read username
         echo 'Install libreoffice suite? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornlibreofficekde
+        if [ $yornlibreofficekde == 'y' ] ; then
             libreoffice='libreoffice'
+        else 
+            libreoffice=''
         fi
         echo 'Install Firefox web browser? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornfirefoxesrkde
+        if [ $yornforefoxesrkde == 'y' ] ; then
             firefoxesr='firefox-esr'
+        else
+            firefoxesr=''
         fi
         echo 'Install kde-games? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornkdegames
+        if [ $yornkdegames == 'y' ] ; then
             kdegames='kdegames'
+        else
+            kdegames=''
         fi
         echo 'Install VLC Media Player? (type Y for yes)'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornvlckde
+        if [ $yornvlckde == 'y' ] ; then
             vlc='vlc'
+        else
+            vlc=''
         fi
 
         echo 'Enable access to additional software (flathub)?'
-        read yorn
-        if [ $yorn == 'y' ] ; then
+        read yornflathubkde
+        if [ $yornflathubkde == 'y' ] ; then
             flathub='flatpak'
             plasmabackendflathub='plasma-discover-backend-flatpak'
+        else
+            flathub=''
+            plasmabackendflathub=''
         fi
-        sudo chroot /mnt /bin/bash -c "apt update ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager kde-plasma-desktop kcalc konsole kate $libreoffice $firefoxesr $kdegames $vlc $flathub $plasmabackendflathub grub-efi-amd64 plymouth-themes wget curl command-not-found net-tools vlc man-db ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\"\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo plymouth-set-default-theme -R bgrt ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
+        sudo chroot /mnt /bin/bash -c "apt update ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager kde-plasma-desktop kcalc konsole kate $libreoffice $firefoxesr $kdegames $vlc $flathub $plasmabackendflathub grub-efi-amd64 plymouth-themes wget curl command-not-found net-tools vlc man-db kio-admin ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\"\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo plymouth-set-default-theme -R bgrt ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
     else
         echo 'That is not a valid option. Setup will now exit'
         exit
