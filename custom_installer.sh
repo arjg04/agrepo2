@@ -7,7 +7,7 @@ echo 'To exit setup, type Q and press ENTER'
 echo 'Hit CTRL+C at any time to quit setup and execute a shell'
 
 read startoption
-if [ $startoption == 'q' ] ; then 
+if [ "$startoption" == 'q' ] ; then 
     echo "Are you sure you want to exit? You will need to rerun setup to finish the installation process. Type yes to quit and press ENTER to continue."
     read startoption2
     if [ $startoption2 == 'yes' ] ; then 
@@ -17,11 +17,11 @@ if [ $startoption == 'q' ] ; then
     fi
 fi
 
-if [ $(cat /proc/sys/firmware/fw_platform_size) != "64" ] ; then
+if [ "$(cat /proc/sys/firmware/fw_platform_size)" != "64" ] ; then
     echo 'This system has not been boot in 64 bit UEFI mode.'
     echo 'Setup cannot continue. Enter Q to quit'
-    read quitoption
-    exit
+    #read quitoption
+    #exit
 fi
 
 echo 'You need to connect to the internet to download software'
@@ -32,8 +32,8 @@ read wifipassword
 
 wifiinterface=$(ip link | grep -m 1 wl | sed 's/[0-9]: //' | sed 's/:.*//')
 echo 'Configuring network interfaces...'
-if [ $wifiname != '' ] ; then
-    sudo bash -c "echo 'auto $wifiinterface' >> /etc/network/interfaces ; echo 'iface $wifiinterface inet dhcp' >> /etc/network/interfaces ; echo 'wpa-essid $wifiname' >> /etc/network/interfaces ; echo 'wpa-psk $wifipassword' >> /etc/network/interfaces"
+if [ "$wifiname" != '' ] ; then
+    sudo bash -c "echo 'auto $wifiinterface' > /etc/network/interfaces ; echo 'iface $wifiinterface inet dhcp' >> /etc/network/interfaces ; echo 'wpa-essid $wifiname' >> /etc/network/interfaces ; echo 'wpa-psk $wifipassword' >> /etc/network/interfaces"
 fi
 echo 'Restarting network service...'
 sudo systemctl restart wpa_supplicant
@@ -135,8 +135,10 @@ fi
 sudo debootstrap --arch amd64 stable /mnt http://deb.debian.org/debian
 echo
 sudo bash -c "genfstab -U /mnt > /mnt/etc/fstab"
-for dir in dev sys proc run ; do sudo mount --make-rslave --rbind /$dir /mnt/$dir ; done
-sudo bash -c 'cat /etc/network/interfaces > /mnt/etc/network/interfaces'
+mount /dev/sda3 /mnt
+mount -t proc proc /mnt/proc
+mount -t sysfs sys /mnt/sys
+mount -o bind /dev /mnt/dev
 
 echo 'Select the type of install you want'
 echo 'a) complete'
