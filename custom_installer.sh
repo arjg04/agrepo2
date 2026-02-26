@@ -24,7 +24,28 @@ if [ $(cat /proc/sys/firmware/fw_platform_size) != "64" ] ; then
     exit
 fi
 
+echo 'You need to connect to the internet to download software'
+echo 'Enter your WiFi network name (Leave this blank if you are connected by ethernet)'
+read wifiname
+echo 'Enter your WiFi password (Leave this blank if you are connected by ethernet)'
+read wifipassword
 
+let wifiinterface=$(ip link | grep -m 1 wl | sed 's/[0-9]: //' | sed 's/:.*//')
+echo 'Configuring network interfaces...'
+sudo bash -c "echo 'auto $wifiinterface' >> /etc/network/interfaces ; echo 'iface $wifiinterface inet dhcp' >> /etc/network/interfaces ; echo 'wpa-essid $wifiname' >> /etc/network/interfaces ; echo 'wpa-psk $wifipassword' >> /etc/network/interfaces"
+echo 'Restarting network service...'
+sudo systemctl restart wpa_supplicant
+echo 'Testing connectivity'
+ping -c 3 debian.org >> connectivity_replies.txt
+if [ $(cat connectivity_replies.txt | wc -l) -eq 0 ] ; then
+    echo 'Connection unsuccessful. Setup cannot continue. Press any key to reboot'
+    read rebootoption1
+    rm -f connectivity_replies.txt
+    sudo reboot
+fi
+rm -f ./connectivity_replies.txt
+echo "Connection successful. Press any key to continue"
+read continueoption1
 sudo apt update
 sudo apt install -y debootstrap arch-install-scripts console-data fdisk dosfstools
 echo
