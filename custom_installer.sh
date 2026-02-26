@@ -218,6 +218,158 @@ elif [ $installoption == 'b' ] ; then
             vlc=''
         fi
 
+        echo 'Install System Tools? (type Y for yes)'
+        read yorngnomesystemtools
+        if [ $yorngnomesystemtools == 'y' ] ; then
+            gnomesystemtools='gnome-system-tools'
+        else 
+            gnomesystemtools=''
+        fi
+
+        echo 'Install GNOME Tweaks? (type Y for yes)'
+        read yorntweaks
+        if [ $yorntweaks == 'y' ] ; then
+            gnometweaks='gnome-tweaks'
+        else 
+            gnometweaks=''
+        fi
+
+        echo 'Install GNOME Shell Extension Manager? (type Y for yes)'
+        read yorngnomeshellextensionmanager
+        if [ $yorngnomeshellextionsionmanager == 'y' ] ; then
+            gnomeshellextensionmanager='gnome-shell-extension-manager'
+        else 
+            gnomeshellextensionmanager=''
+        fi
+
+        echo 'Install Synaptic Package Manager? (type Y for yes)'
+        read yornsynaptic
+        if [ $yornsynaptic == 'y' ] ; then
+            synaptic='synaptic'
+        else 
+            synaptic=''
+        fi
+
+        echo 'Install Evolution (mail client)? (type Y for yes)'
+        read yornevolution
+        if [ $yornevolution == 'y' ] ; then
+            evolution='evolution'
+        else 
+            evolution=''
+        fi
+
+        echo 'Install Contacts Viewer? (type Y for yes)'
+        read yorngnomecontacts
+        if [ $yorngnomecontacts == 'y' ] ; then
+            gnomecontacts='gnome-contacts'
+        else 
+            gnome-contacts=''
+        fi
+
+        echo 'Install Weather Application? (type Y for yes)'
+        read yorngnomeweather
+        if [ $yorngnomeweather == 'y' ] ; then
+            gnomeweather='gnome-weather'
+        else 
+            gnomeweather=''
+        fi
+
+        echo 'Install Clocks Application? (type Y for yes)'
+        read yorngnomeclocks
+        if [ $yorngnomeclocks == 'y' ] ; then
+            gnomeclocks='gnome-clocks'
+        else 
+            gnomeclocks=''
+        fi
+
+        echo 'Install GNOME Calendar? (type Y for yes)'
+        read yorngnomecalendar
+        if [ $yorngnomecalendar == 'y' ] ; then
+            gnomecalendar='gnome-calendar'
+        else 
+            gnomecalendar=''
+        fi
+
+        echo 'Install GNOME Maps? (type Y for yes)'
+        read yorngnomemaps
+        if [ $yorngnomemaps == 'y' ] ; then
+            gnomemaps='gnome-maps'
+        else 
+            gnomemaps=''
+        fi
+
+        echo 'Install GNOME Music Player? (type Y for yes)'
+        read yorngnomemusic
+        if [ $yorngnomemusic == 'y' ] ; then
+            gnomemusic='gnome-music'
+        else 
+            gnomemusic=''
+        fi
+
+        echo 'Install Camera Application? (type Y for yes)'
+        read yorngnomesnapshot
+        if [ $yorngnomesnapshot == 'y' ] ; then
+            gnomesnapshot='gnome-snapshot'
+        else 
+            gnome-snapshot=''
+        fi
+
+        echo 'Install Remote Desktop software? (type Y for yes)'
+        read yornconnections
+        if [ $yornconnections == 'y' ] ; then
+            gnomeconnections='gnome-connections'
+        else 
+            gnomeconnections=''
+        fi
+
+        echo 'Install Font Viewer? (type Y for yes)'
+        read yornfontviewer
+        if [ $yornfontviewer == 'y' ] ; then
+            gnomefontviewer='gnome-font-viewer'
+        else 
+            gnomefontviewer=''
+        fi
+
+        echo 'Install Character Selector? (type Y for yes)'
+        read yorncharacters
+        if [ $yorncharacters == 'y' ] ; then
+            gnomecharacters='gnome-characters'
+        else 
+            gnomecharacters=''
+        fi
+
+        echo 'Install Disk Management tools? (type Y for yes)'
+        read yorndisks
+        if [ $yorndisks == 'y' ] ; then
+            gnomediskutility='gnome-disk-utility'
+        else 
+            gnomediskutility=''
+        fi
+
+        echo 'Allow online accounts? (type Y for yes)'
+        read yornonlineaccounts
+        if [ $yornonlineaccounts == 'y' ] ; then
+            gnomeonlineaccounts='gnome-online-accounts'
+        else 
+            gnomeonlineaccounts=''
+        fi
+
+        echo 'Install Sound Recorder? (type Y for yes)'
+        read yornsoundrecorder
+        if [ $yornsoundrecorder == 'y' ] ; then
+            gnomesoundrecorder='gnome-sound-recorder'
+        else 
+            gnomesoundrecorder=''
+        fi
+
+        echo 'Install Shotwell (digitalphoto organizer)? (type Y for yes)'
+        read yornshotwell
+        if [ $yornshotwell == 'y' ] ; then
+            shotwell='shotwell'
+        else 
+            shotwell=''
+        fi
+
         echo 'Enable access to additional software (flathub)?'
         read yornflathub
         if [ $yornflathub == 'y' ] ; then
@@ -228,7 +380,7 @@ elif [ $installoption == 'b' ] ; then
             gnomesoftwareflathub=''
         fi
         
-        sudo chroot /mnt /bin/bash -c "apt update ; useradd -m -s /bin/bash $username ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager gnome-shell gdm3 gnome-software $flathub $gnomesoftwareflathub $libreoffice $firefoxesr $gnomegames $vlc nautilus gnome-calculator gnome-system-tools gnome-terminal grub-efi-amd64 plymouth-themes wget curl man-db command-not-found net-tools ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\"\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; plymouth-set-default-theme -R bgrt ; flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
+        sudo chroot /mnt /bin/bash -c "apt update ; useradd -m -s /bin/bash $username ; echo Enter the password for $username ; passwd $username ; usermod -aG audio,video,sudo $username ; echo $computername > /etc/hostname ; apt install -y linux-image-amd64 firmware-linux efibootmgr os-prober dosfstools mtools vim sudo nano network-manager gnome-shell gdm3 gnome-software gnome-backgrounds gnome-tour gnome-text-editor gnome-user-docs gnome-system-monitor gnome-menus $flathub $gnomesoftwareflathub $libreoffice $firefoxesr $gnomegames $vlc $gnomesystemtools $gnometweaks $gnomeshellextensionmanager $synaptic $evolution $gnomecontacts $gnomeweather $gnomeclocks $gnomecalendar $gnomemaps $gnomemusic $gnomesnapshot $gnomeconnections $gnomefontviewer $gnomecharasters $gnomediskutility $gnomeonlineaccounts $gnomesoundrecorder $shotwell nautilus gnome-calculator gnome-system-tools gnome-terminal grub-efi-amd64 plymouth-themes wget curl man-db command-not-found net-tools ; echo \"Running command: grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force\" ; grub-install --target=x86_64-efi --bootloader-id=debian --efi-directory=/boot/efi --recheck --force ; echo 'GRUB_CMDLINE_LINUX_DEFAULT=\"quiet splash vt.global_cursor_default=0\"' > /etc/default/grub ; echo 'GRUB_CMDLINE_LINUX=\"\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT_STYLE=\"hidden\"' >> /etc/default/grub ; echo 'GRUB_TIMEOUT=5' >> /etc/default/grub ; echo 'GRUB_BACKGROUND=\"\"' >> /etc/default/grub ; sed 's/\$(echo \"\$message\" | grub_quote)//g' /etc/grub.d/10_linux > /etc/grub.d/10_linux.bak ; cat /etc/grub.d/10_linux.bak > /etc/grub.d/10_linux ; plymouth-set-default-theme -R bgrt ; flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo ; update-grub ; systemctl enable NetworkManager ; systemctl enable gdm"
 
     elif [ $deoption == 'b' ] ; then
         echo 'Enter the name of this computer'
