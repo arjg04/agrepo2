@@ -11,11 +11,11 @@ fi
 
 
 sudo apt update
-sudo apt install -y debootstrap arch-install scripts console-data
+sudo apt install -y debootstrap arch-install scripts console-data fdisk dosfstools
 
 echo 'Here is a list of all disks, partitions, and block devices on this machine:'
 echo 'A partition is a section of a disk that can store data.'
-fdisk -l
+sudo fdisk -l
 echo 'Please note that one partition MUST by EFI System!'
 echo 'Enter the name of the disk you want to install (e.g. /dev/sda or /dev/nvme0n1)'
 echo 'WARNING: if you choose to delete any partitions on the disk, it will erase ALL data on it!'
@@ -25,7 +25,7 @@ sudo cfdisk $disk
 
 for part in $(ls $disk*) ; do
     if [ $part != $disk ] ; then
-        echo 'A new partition has been created for $part. Please select an option'
+        echo "A new partition has been created for $part. Please select an option"
         echo 'a) Format the partition using the EXT4 file system'
         echo 'b) Format the partition using the BTRFS file system'
         echo 'c) Format the partition using the FAT32 file system'
@@ -33,12 +33,12 @@ for part in $(ls $disk*) ; do
         echo 'Please note that the EFI system partition MUST be formatted as FAT32'
         echo 'Please enter an option (a to d), q to quit setup'
         read fsoption
-        if [ fsoption -eq 'q' ] ; then
+        if [ $fsoption == 'q' ] ; then
             exit
         fi
         echo 'WARNING: ALL DATA on non-removable partition $part WILL BE ERASED! Do you wish to continue (enter yes)'
         read confirmation1
-        if [ $confirmation1 -neq 'yes' ] ; then
+        if [ $confirmation1 != 'yes' ] ; then
             echo 'Setup has not been complete. You will need to rerun setup again to finish the installation process.'
             exit
         fi
@@ -47,10 +47,11 @@ for part in $(ls $disk*) ; do
             sudo mkfs.ext4 $part
         elif [ $fsoption == 'b' ] ; then
             sudo mkfs.btrfs $part
-        elif [ $fsoption == 'c'] ; then
+        elif [ $fsoption == 'c' ] ; then
             sudo mkfs.vfat $part
         elif [ $fsoption == 'd' ] ; then
             sudo mkswap $part
+            swapdisk=$part
         else ;
             echo 'That is not a valid file system. Setup will now exit'
             exit
@@ -62,11 +63,11 @@ for part in $(ls $disk*) ; do
     if [ $part != $disk ] ; then
         echo 'Enter the mountpoint for $part'
         read mountpoint
-        if [ $(ls -al /mnt$mountpoint) -eq 2 or if it returns no such file or directory ] ; then
-            sudo mount --mkdir $part /mnt$mountpoint
-        else ;
-            sudo mount $part /mnt$mountpoint
-        fi
+        sudo mount --mkdir $part /mnt$mountpoint
+        sudo mount $part /mnt$mountpoint
+    fi
+    if [ $part == $swapdisk ] ; then
+        swapon $part
     fi
 done
 
