@@ -1,6 +1,19 @@
+#!/bin/bash
+
 echo 'Welcome to setup. The setup utility prepares this OS to run on your computer.'
-echo 'To begin setup, type Y and press ENTER'
+echo 'To begin setup, press ENTER'
 echo 'To exit setup, type Q and press ENTER'
+
+read startoption
+if [ $startoption == 'q' ] ; then 
+    echo "Are you sure you want to exit? You will need to rerun setup to finish the installation process. Type yes to quit and press ENTER to continue."
+    read startoption2
+    if [ $startoption2 == 'yes' ] ; then 
+        echo "The system will reboot in 5 seconds."
+        sleep 5
+        sudo reboot
+    fi
+fi
 
 if [ $(cat /proc/sys/firmware/fw_platform_size) != "64" ] ; then
     echo 'This system has not been boot in 64 bit UEFI mode.'
@@ -33,8 +46,14 @@ for part in $(ls $disk*) ; do
         echo 'Please note that the EFI system partition MUST be formatted as FAT32'
         echo 'Please enter an option (a to d), q to quit setup'
         read fsoption
-        if [ $fsoption == 'q' ] ; then
-            exit
+        if [ $fsoption == 'q' ] ; then 
+            echo "Are you sure you want to exit? You will need to rerun setup to finish the installation process. Type yes to quit and press ENTER to continue."
+            read fsoptionquit
+            if [ $fsoptionquit == 'yes' ] ; then 
+                echo "The system will reboot in 5 seconds."
+                sleep 5
+                sudo reboot
+            fi
         fi
         echo 'WARNING: ALL DATA on non-removable partition $part WILL BE ERASED! Do you wish to continue (enter yes)'
         read confirmation1
@@ -54,8 +73,9 @@ for part in $(ls $disk*) ; do
             sudo mkswap $part
             swapdisk=$part
         else 
-            echo 'That is not a valid file system. Setup will now exit'
-            exit
+            echo 'That is not a valid file system. The system will reboot in 5 seconds.'
+            sleep 5
+            sudo reboot
         fi
     fi
 done
@@ -80,9 +100,10 @@ done
 echo 'Setup is now preparing to install the base system.'
 echo 'To begin the installation, enter Y, or else enter Q to quit setup without installing'
 read confirmation2
-if [ confirmation2 -neq 'y' ] ; then
-    echo 'Setup has not finished. You will need to rerun the setup utility to finish the installation process'
-    exit
+if [ confirmation2 != 'y' ] ; then
+    echo 'Setup has not finished. You will need to rerun the setup utility to finish the installation process. The system will reboot in 5 seconds.'
+    sleep 5
+    sudo reboot
 fi
 
 sudo debootstrap --arch amd64 stable /mnt http://deb.debian.org/debian
@@ -191,5 +212,6 @@ elif [ $installoption == 'b' ] ; then
 fi
 
 echo 'Setup has finished configuring your system. You must restart your system for the changes to take effect'
-echo 'Press any key and press ENTER to reboot'
+echo 'Press ENTER to reboot'
+read rebootoption
 sudo reboot
