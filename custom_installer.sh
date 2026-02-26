@@ -66,6 +66,9 @@ for part in $(ls $disk*) ; do
         read mountpoint
         sudo mount --mkdir $part /mnt$mountpoint
     fi
+done
+
+for part in $(ls $disk*) ; do
     if [ $part == $swapdisk ] ; then
         sudo swapon $part
     fi
