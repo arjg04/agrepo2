@@ -2,7 +2,7 @@ echo 'Welcome to setup. The setup utility prepares this OS to run on your comput
 echo 'To begin setup, type Y and press ENTER'
 echo 'To exit setup, type Q and press ENTER'
 
-if [ cat /proc/sys/firmware/fw_platform_size -neq 64 ] ; then
+if [ $(cat /proc/sys/firmware/fw_platform_size) != "64" ] ; then
     echo 'This system has not been boot in 64 bit UEFI mode.'
     echo 'Setup cannot continue. Enter Q to quit'
     read quitoption
@@ -11,7 +11,7 @@ fi
 
 
 sudo apt update
-sudo apt install -y debootstrap arch-install scripts console-data fdisk dosfstools
+sudo apt install -y debootstrap arch-install-scripts console-data fdisk dosfstools
 
 echo 'Here is a list of all disks, partitions, and block devices on this machine:'
 echo 'A partition is a section of a disk that can store data.'
