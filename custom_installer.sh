@@ -17,11 +17,11 @@ if [ "$startoption" == 'q' ] ; then
     fi
 fi
 
-if [ "$(cat /proc/sys/firmware/fw_platform_size)" != "64" ] ; then
+if [ "$(cat /sys/firmware/efi/fw_platform_size)" != "64" ] ; then
     echo 'This system has not been boot in 64 bit UEFI mode.'
-    echo 'Setup cannot continue. Enter Q to quit'
-    #read quitoption
-    #exit
+    echo 'Setup cannot continue. Press ENTER to reboot'
+    read quitoption
+    sudo reboot
 fi
 
 echo 'You need to connect to the internet to download software'
