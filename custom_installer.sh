@@ -25,7 +25,7 @@ fi
 
 sudo apt update
 sudo apt install -y debootstrap arch-install-scripts console-data fdisk dosfstools
-
+echo
 echo 'Here is a list of all disks, partitions, and block devices on this machine:'
 echo 'A partition is a section of a disk that can store data.'
 sudo fdisk -l
@@ -38,6 +38,7 @@ sudo cfdisk $disk
 
 for part in $(ls $disk*) ; do
     if [ $part != $disk ] ; then
+        echo
         echo "A new partition has been created for $part. Please select an option"
         echo 'a) Format the partition using the EXT4 file system'
         echo 'b) Format the partition using the BTRFS file system'
