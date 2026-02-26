@@ -61,7 +61,7 @@ for part in $(ls $disk*) ; do
 done
 
 for part in $(ls $disk*) ; do
-    if [ $part != $disk && $part != $efidisk && $part != $swapdisk ] ; then
+    if [[ $part != $disk && $part != $efidisk && $part != $swapdisk ]] ; then
         echo "Enter the mountpoint for $part"
         read mountpoint
         sudo mount --mkdir $part /mnt$mountpoint
@@ -74,6 +74,7 @@ for part in $(ls $disk*) ; do
     fi
     if [ $part == $efidisk ] ; then
         sudo mount --mkdir $part /mnt/boot/efi
+    fi
 done
 
 echo 'Setup is now preparing to install the base system.'
