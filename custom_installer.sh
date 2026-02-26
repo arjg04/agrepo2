@@ -61,13 +61,13 @@ done
 
 for part in $(ls $disk*) ; do
     if [ $part != $disk ] ; then
-        echo 'Enter the mountpoint for $part'
+        echo "Enter the mountpoint for $part"
         read mountpoint
         sudo mount --mkdir $part /mnt$mountpoint
         sudo mount $part /mnt$mountpoint
     fi
     if [ $part == $swapdisk ] ; then
-        swapon $part
+        sudo swapon $part
     fi
 done
 
