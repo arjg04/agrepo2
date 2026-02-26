@@ -52,7 +52,7 @@ for part in $(ls $disk*) ; do
         elif [ $fsoption == 'd' ] ; then
             sudo mkswap $part
             swapdisk=$part
-        else ;
+        else 
             echo 'That is not a valid file system. Setup will now exit'
             exit
         fi
