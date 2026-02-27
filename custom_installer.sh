@@ -69,6 +69,7 @@ for part in $(ls $disk*) ; do
         echo 'b) Format the partition using the BTRFS file system'
         echo 'c) Format the partition using the FAT32 file system'
         echo 'd) Set as SWAP device'
+        echo 'e) Or anything else: Leave file system intact (no changes)'
         echo 'Please note that the EFI system partition MUST be formatted as FAT32'
         echo 'Please enter an option (a to d), q to quit setup'
         read fsoption
@@ -98,10 +99,6 @@ for part in $(ls $disk*) ; do
         elif [ $fsoption == 'd' ] ; then
             sudo mkswap $part
             swapdisk=$part
-        else 
-            echo 'That is not a valid file system. The system will reboot in 5 seconds.'
-            sleep 5
-            sudo reboot
         fi
     fi
 done
